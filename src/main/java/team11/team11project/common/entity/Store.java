@@ -22,14 +22,15 @@ public class Store {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "store_id")
-    private Long id;
+    private Long storeId;
 
-    private String name;
+    private String storeName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     private Member owner;
 
+    private int minOrderPrice;
     private LocalTime openTime;
     private LocalTime closeTime;
 
