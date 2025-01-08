@@ -4,7 +4,6 @@ spring:
     username: root
     password: Qudcjs5027!
     driver-class-name: com.mysql.cj.jdbc.Driver
-
   jpa:
     show-sql: true
     hibernate:
