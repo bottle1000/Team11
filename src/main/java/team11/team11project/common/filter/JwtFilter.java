@@ -60,6 +60,18 @@ public class JwtFilter implements Filter {
             throw new InvalidTokenException("Token이 유효하지 않습니다.");
         }
 
+        log.info("필터 부분 통과");
+        /**
+         * jwt에서 사용자 정보 추출
+         * 멤버 권한
+         */
+        String role = jwtUtil.extractRoles(jwt);
 
+        /**
+         * 요청에 멤버 권한 추가
+         */
+        request.setAttribute("role", role);
+
+        filterChain.doFilter(request, response);
     }
 }
