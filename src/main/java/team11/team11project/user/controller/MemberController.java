@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import team11.team11project.user.model.request.LoginRequest;
 import team11.team11project.user.model.request.RegisterRequest;
+import team11.team11project.user.model.response.LoginDto;
 import team11.team11project.user.model.response.RegisterDto;
 import team11.team11project.user.service.MemberService;
 
@@ -26,6 +28,11 @@ public class MemberController {
     @PostMapping("/register")
     public ResponseEntity<RegisterDto> registerMember(@Valid @RequestBody RegisterRequest request) {
         return new ResponseEntity<>(memberService.registerMember(request), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginDto> loginMember(@Valid @RequestBody LoginRequest request) {
+        return new ResponseEntity<>(memberService.LoginMember(request), HttpStatus.OK);
     }
 
 }
