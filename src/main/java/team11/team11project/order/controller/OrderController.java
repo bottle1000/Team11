@@ -31,7 +31,7 @@ public class OrderController {
     }
 
     // ::: 주문 상태 변경 API
-    @PutMapping("/{orderId}")
+    @PatchMapping("/{orderId}")
     public ResponseEntity<UpdateOrderResponse> updateOrderStatus(
             @PathVariable Long orderId,
             @RequestBody UpdateOrderRequest request

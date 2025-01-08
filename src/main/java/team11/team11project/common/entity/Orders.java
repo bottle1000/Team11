@@ -34,10 +34,10 @@ public class Orders extends BaseEntity {
 
     //TODO : 총 주문 금액을 어떻게 할 것인가. Order or Menu
 
-    public Orders(Member customer, Menu menu, OrderStatus orderStatus, int quantity) {
+    public Orders(Member customer, Menu menu,int quantity) {
         this.customer = customer;
         this.menu = menu;
-        this.orderStatus = orderStatus;
+        this.orderStatus = OrderStatus.REQUESTED;
         this.quantity = quantity;
     }
 
