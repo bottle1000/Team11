@@ -4,8 +4,12 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "menu")
@@ -21,8 +25,11 @@ public class Menu extends BaseEntity{
     @Column(name = "menu_id")
     private Long id;
 
+    @Setter
     private String name;
-    private int price;
+    @Setter
+    private Integer price;
+    @Setter
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,4 +41,12 @@ public class Menu extends BaseEntity{
     private Member owner;
 
     private boolean is_deleted = Boolean.FALSE;
+
+
+    public Menu(String name, Integer price, String description) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+    }
+
 }
