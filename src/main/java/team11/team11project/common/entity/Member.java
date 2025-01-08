@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import team11.team11project.common.enums.UserRole;
+import team11.team11project.user.model.request.RegisterRequest;
 
 @Entity
 @Table(name = "member")
@@ -31,4 +32,20 @@ public class Member extends BaseEntity {
     private UserRole userRole;
 
     private boolean is_deleted = Boolean.FALSE;
+
+    /**
+     * 유저 생성을 엔티티에 위임
+     * 정적 팩토리 메서드 사용
+     */
+    public static Member createMember(RegisterRequest request, String encodedPassword) {
+        return new Member(
+                null,
+                request.getMemberName(),
+                request.getEmail(),
+                encodedPassword,
+                UserRole.fromString(request.getRole()),
+                false
+        );
+    }
+
 }
