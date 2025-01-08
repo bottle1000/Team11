@@ -13,6 +13,7 @@ import team11.team11project.order.dto.CreateOrderResponse;
 import team11.team11project.order.dto.UpdateOrderRequest;
 import team11.team11project.order.dto.UpdateOrderResponse;
 import team11.team11project.order.repository.OrderRepository;
+import team11.team11project.user.repository.MemberRepository;
 
 import java.time.LocalTime;
 
@@ -21,7 +22,7 @@ import java.time.LocalTime;
 public class OrderService {
 
     // 속성
-    private final MemberReposotory memberReposotory;
+    private final MemberRepository memberRepository;
     private final MenuRepository menuRepository;
     private final OrderRepository orderRepository;
 
@@ -31,7 +32,7 @@ public class OrderService {
     // ::: 주문 생성 서비스
     public CreateOrderResponse save(CreateOrderRequest request) {
 
-        Member customer = memberReposotory.findById(request.getCustomer_id()).orElseThrow(() ->
+        Member customer = memberRepository.findById(request.getCustomer_id()).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 id의 멤버가 존재하지 않습니다."));
 
         Menu menu = menuRepository.findById(request.getMenu_id()).orElseThrow(() ->
