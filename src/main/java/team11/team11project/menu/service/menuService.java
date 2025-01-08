@@ -9,6 +9,7 @@ import team11.team11project.menu.model.response.menuResponse;
 import team11.team11project.menu.repository.menuRepository;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -39,26 +40,32 @@ public class menuService {
         Menu menu = menuRepository.findMenuById(id).orElseThrow(() -> new IllegalStateException("메뉴를 찾을 수 없습니다."));
 
         //입력 값이 null 또는 비어 있을 경우 기존 값 설정
-        if(name == null || name.isEmpty()) {
-            name = menu.getName();
-        }else{
+        if(name != null && !name.isEmpty()) {
             menu.setName(name);
         }
 
-        if(price == null || price < 0 ){
-            price = menu.getPrice();
-        }else{
+        if(price != null && price >= 0 ){
             menu.setPrice(price);
         }
 
-        if(description == null || description.isEmpty()) {
-            description = menu.getDescription();
-        }else{
+        if(description != null && !description.isEmpty()) {
             menu.setDescription(description);
         }
 
-        menuRepository.save(menu);
-        return new menuResponse(id, name, price, description, LocalDate.now());
+        Menu savedMenu = menuRepository.save(menu);
+        return new menuResponse(savedMenu.getId(), savedMenu.getName(), savedMenu.getPrice(), savedMenu.getDescription(), LocalDate.now());
+
+    }
+
+    public void deleteMenu(Long id) {
+        Menu menu = menuRepository.findMenuById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "메뉴를 찾을 수 없습니다."));
+        menuRepository.delete(menu);
+    }
+
+    public List<menuResponse> getMenus() {
+      List<Menu> menus = menuRepository.findAll();
+
+      return menus.stream().map(menuResponse::toDto).toList();
 
     }
 }
