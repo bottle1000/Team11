@@ -8,11 +8,16 @@ import team11.team11project.common.entity.Member;
 import team11.team11project.common.entity.Menu;
 import team11.team11project.common.entity.Orders;
 import team11.team11project.common.enums.OrderStatus;
+import team11.team11project.common.exception.InvalidOrderStatusChangeException;
+import team11.team11project.common.exception.MinimumOrderAmountException;
+import team11.team11project.common.exception.NotFoundException;
+import team11.team11project.common.exception.OutOfOperatingHoursException;
 import team11.team11project.order.dto.CreateOrderRequest;
 import team11.team11project.order.dto.CreateOrderResponse;
 import team11.team11project.order.dto.UpdateOrderRequest;
 import team11.team11project.order.dto.UpdateOrderResponse;
 import team11.team11project.order.repository.OrderRepository;
+import team11.team11project.user.repository.MemberRepository;
 
 import java.time.LocalTime;
 
@@ -21,7 +26,7 @@ import java.time.LocalTime;
 public class OrderService {
 
     // 속성
-    private final MemberReposotory memberReposotory;
+    private final MemberRepository memberRepository;
     private final MenuRepository menuRepository;
     private final OrderRepository orderRepository;
 
@@ -31,45 +36,45 @@ public class OrderService {
     // ::: 주문 생성 서비스
     public CreateOrderResponse save(CreateOrderRequest request) {
 
-        Member customer = memberReposotory.findById(request.getCustomer_id()).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 id의 멤버가 존재하지 않습니다."));
+        Member customer = memberRepository.findById(request.getCustomer_id()).orElseThrow(() ->
+                new NotFoundException("해당 id의 멤버가 존재하지 않습니다."));
 
         Menu menu = menuRepository.findById(request.getMenu_id()).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 id의 메뉴가 존재하지 않습니다."));
+                new NotFoundException("해당 id의 메뉴가 존재하지 않습니다."));
 
         LocalTime now = LocalTime.now();
         // 가게 운영 시간이 아닐 때 주문을 하는 경우 예외 처리
         if (now.isBefore(menu.getStore().getOpenTime()) || now.isAfter(menu.getStore().getCloseTime())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "가게 운영 시간이 아닙니다. 가게 운영 시간일 때 주문해주세요.");
+            throw new OutOfOperatingHoursException("가게 운영 시간이 아닙니다. 가게 운영 시간일 때 주문해주세요.");
         }
 
         int totalPrice = menu.getPrice() * request.getQuantity();
         // 최소 주문 금액이 넘지 않는 경우 예외 처리
         if (totalPrice < menu.getStore().getMinOrderPrice()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "최소 주문 금액 이상 주문해야 접수 가능합니다.");
+            throw new MinimumOrderAmountException("최소 주문 금액 이상 주문해야 접수 가능합니다.");
         }
 
-        Orders order = new Orders(customer, menu, request.getOrderStatus(), request.getQuantity());
+        Orders order = new Orders(customer, menu, request.getQuantity());
 
         Orders savedOrder = orderRepository.save(order);
 
-        return new CreateOrderResponse("주문 생성", savedOrder.getOrderId());
+        return new CreateOrderResponse("주문 생성", savedOrder.getId());
     }
 
     // ::: 주문 상태 변경 서비스
     public UpdateOrderResponse updateOrderStatus(Long orderId, UpdateOrderRequest request) {
 
         Orders foundOrder = orderRepository.findById(orderId).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 id의 주문이 존재하지 않습니다."));
+                new NotFoundException("해당 id의 주문이 존재하지 않습니다."));
 
-        // 배달 완료된 주문에 대해 상태 변경을 요청하는 경우 예외 처리
-        if (foundOrder.getOrderStatus() == OrderStatus.COMPLETED) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "배달 완료된 주문은 상태를 변경할 수 없습니다.");
+        // 배달 완료, 취소된 주문에 대해 상태 변경을 요청하는 경우 예외 처리
+        if (foundOrder.getOrderStatus() == OrderStatus.COMPLETED || foundOrder.getOrderStatus() == OrderStatus.CANCELED) {
+            throw new InvalidOrderStatusChangeException("주문 상태를 변경할 수 없습니다.");
         }
 
         // 주문 상태를 전 단계로 되돌아갈 경우 예외 처리
         if (foundOrder.getOrderStatus().ordinal() > request.getOrderStatus().ordinal()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "전 단계의 주문 상태로 돌아갈 수 없습니다.");
+            throw new InvalidOrderStatusChangeException("주문 상태를 전 단계로 되돌아갈 수 없습니다.");
         }
 
         foundOrder.UpdateOrderStatus(request.getOrderStatus());
