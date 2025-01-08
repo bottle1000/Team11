@@ -27,4 +27,28 @@ public class GlobalExceptionHandler {
         log.error("오류 메시지 : {}", e.getMessage());
         return new ResponseEntity<>(new ExceptionResponse(e.getMessage(), HttpStatus.CONFLICT.value()), HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(UserRoleNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleUserRoleNotFoundException(UserRoleNotFoundException e) {
+        log.error("오류 메시지 : {}", e.getMessage());
+        return new ResponseEntity<>(new ExceptionResponse(e.getMessage(), HttpStatus.UNAUTHORIZED.value()), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(UnauthorizedAccessException.class)
+    public ResponseEntity<ExceptionResponse> handleUnauthorizedAccessException(UnauthorizedAccessException e) {
+        log.error("오류 메시지 : {}", e.getMessage());
+        return new ResponseEntity<>(new ExceptionResponse(e.getMessage(), HttpStatus.FORBIDDEN.value()), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(NotFoundEmailException.class)
+    public ResponseEntity<ExceptionResponse> handleNotFoundEmailException(NotFoundEmailException e) {
+        log.error("오류 메시지 : {}", e.getMessage());
+        return new ResponseEntity<>(new ExceptionResponse(e.getMessage(), HttpStatus.NOT_FOUND.value()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(IncorrectPasswordException.class)
+    public ResponseEntity<ExceptionResponse> handleIncorrectPasswordException(IncorrectPasswordException e) {
+        log.error("오류 메시지 : {}", e.getMessage());
+        return new ResponseEntity<>(new ExceptionResponse(e.getMessage(), HttpStatus.UNAUTHORIZED.value()), HttpStatus.UNAUTHORIZED);
+    }
 }
