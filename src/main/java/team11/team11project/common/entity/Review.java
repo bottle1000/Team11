@@ -17,11 +17,12 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id")
-    private Long reviewId;
+    private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id")
-    private Store store;
+    /**
+     * store 연관관계 코드 삭제.
+     * 어차피 orders 에서 타고 들어가면 store 정보가 있어서 과한 매핑이다.
+     */
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
