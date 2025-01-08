@@ -20,6 +20,7 @@ public class menuService {
     public menuResponse createMenu(String name, Integer price, String description) {
         Menu menu = new Menu(name, price, description);
 
+        //값이 없을 때 예외 처리
         if(name == null || name.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name cannot be empty");
         }else if(price < 0){
@@ -37,6 +38,7 @@ public class menuService {
     public menuResponse updateMenu(Long id, String name, Integer price, String description) {
         Menu menu = menuRepository.findMenuById(id).orElseThrow(() -> new IllegalStateException("메뉴를 찾을 수 없습니다."));
 
+        //입력 값이 null 또는 비어 있을 경우 기존 값 설정
         if(name == null || name.isEmpty()) {
             name = menu.getName();
         }else{
