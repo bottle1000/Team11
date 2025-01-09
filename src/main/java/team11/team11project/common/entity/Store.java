@@ -36,11 +36,11 @@ public class Store {
 
     private boolean is_deleted = Boolean.FALSE;
 
-    public static Store createStore(CreateStoreRequest request) {
+    public static Store createStore(CreateStoreRequest request, Member owner) {
         return new Store(
                 null,
                 request.getStoreName(),
-                null,
+                owner,
                 request.getMinOrderPrice(),
                 request.getOpenTime(),
                 request.getCloseTime(),
