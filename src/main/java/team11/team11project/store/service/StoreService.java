@@ -17,7 +17,6 @@ public class StoreService {
     private final StoreRepository storeRepository;
     private final MemberRepository memberRepository;
 
-    //Todo : 오너의 이름으로 가게가 3개 초과되면 예외를 던져 더 이상 만들지 못하게 하기.
     public CreateStoreDto createStore(CreateStoreRequest dto, HttpServletRequest request) {
         Long memberId = (Long) request.getAttribute("memberId");
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new ValidationException("존재하지 않는 유저 입니다."));
