@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import team11.team11project.store.model.request.CreateStoreRequest;
 
 import java.time.LocalTime;
 
@@ -34,4 +35,16 @@ public class Store {
     private LocalTime closeTime;
 
     private boolean is_deleted = Boolean.FALSE;
+
+    public static Store createStore(CreateStoreRequest request, Member owner) {
+        return new Store(
+                null,
+                request.getStoreName(),
+                owner,
+                request.getMinOrderPrice(),
+                request.getOpenTime(),
+                request.getCloseTime(),
+                false
+        );
+    }
 }
