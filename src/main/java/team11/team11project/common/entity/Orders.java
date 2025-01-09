@@ -23,10 +23,6 @@ public class Orders extends BaseEntity {
     private Member customer; // 주문한 고객
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id")
-    private Store store; // 주문한 가게
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_id")
     private Menu menu; // 주문한 메뉴
 
@@ -38,4 +34,14 @@ public class Orders extends BaseEntity {
 
     //TODO : 총 주문 금액을 어떻게 할 것인가. Order or Menu
 
+    public Orders(Member customer, Menu menu,int quantity) {
+        this.customer = customer;
+        this.menu = menu;
+        this.orderStatus = OrderStatus.REQUESTED;
+        this.quantity = quantity;
+    }
+
+    public void UpdateOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
 }
