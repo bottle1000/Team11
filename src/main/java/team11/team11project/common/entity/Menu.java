@@ -36,17 +36,15 @@ public class Menu extends BaseEntity{
     @JoinColumn(name = "store_id")
     private Store store;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id")
-    private Member owner;
 
     private boolean is_deleted = Boolean.FALSE;
 
 
-    public Menu(String name, Integer price, String description) {
+    public Menu(String name, Integer price, String description, Store store) {
         this.name = name;
         this.price = price;
         this.description = description;
+        this.store = store;
     }
 
 }
