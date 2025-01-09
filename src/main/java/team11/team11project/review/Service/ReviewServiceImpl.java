@@ -26,7 +26,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public ReviewAddResponseDto addReview(Long orderId, ReviewAddRequestDto dto) {
         Orders order = orderRepository.findById(orderId).orElseThrow();
-        Member customer = memberRepository.findById(customerId).orElseThrow(); // Todo 로그인된 사용자를 가져와야함
+        Member customer = memberRepository.findById(orderId).orElseThrow(); // Todo 로그인된 사용자를 가져와야함
         Review review = new Review(order, customer , dto.getRating(), dto.getComment());
         review = reviewRepository.save(review);
 
