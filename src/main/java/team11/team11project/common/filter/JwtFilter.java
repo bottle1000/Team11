@@ -66,11 +66,13 @@ public class JwtFilter implements Filter {
          * 멤버 권한
          */
         String role = jwtUtil.extractRoles(jwt);
+        Long memberId = Long.parseLong(jwtUtil.extractMemberId(jwt));
 
         /**
          * 요청에 멤버 권한 추가
          */
         request.setAttribute("role", role);
+        request.setAttribute("memberId", memberId);
 
         filterChain.doFilter(request, response);
     }
