@@ -6,7 +6,7 @@ import team11.team11project.common.entity.Menu;
 import java.time.LocalDate;
 
 @Getter
-public class menuResponse {
+public class MenuResponse {
 
     private Long id;
 
@@ -18,7 +18,7 @@ public class menuResponse {
 
     private LocalDate createdAt;
 
-    public menuResponse(Long id, String name, Integer price, String description, LocalDate createdAt) {
+    public MenuResponse(Long id, String name, Integer price, String description, LocalDate createdAt) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -26,7 +26,4 @@ public class menuResponse {
         this.createdAt = createdAt;
     }
 
-    public static menuResponse toDto(Menu menu) {
-        return new menuResponse(menu.getId(),menu.getName(), menu.getPrice(), menu.getDescription(),menu.getCreatedAt());
-    }
 }
