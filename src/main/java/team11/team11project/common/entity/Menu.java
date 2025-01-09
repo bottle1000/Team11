@@ -36,15 +36,18 @@ public class Menu extends BaseEntity{
     @JoinColumn(name = "store_id")
     private Store store;
 
+    @Column(name = "owner_id", nullable = false)
+    private Long ownerId;
 
     private boolean is_deleted = Boolean.FALSE;
 
 
-    public Menu(String name, Integer price, String description, Store store) {
+    public Menu(String name, Integer price, String description, Store store, Long ownerId) {
         this.name = name;
         this.price = price;
         this.description = description;
         this.store = store;
+        this.ownerId = ownerId;
     }
 
 }

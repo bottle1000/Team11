@@ -30,7 +30,7 @@ public class MenuService {
         throw new NotFoundException("사장만 가능합니다.");
         }
 
-        Menu menu = new Menu(name, price, description,store);
+        Menu menu = new Menu(name, price, description, store, ownerId);
 
         //값이 없을 때 예외 처리
         if(name == null || name.isEmpty()) {
