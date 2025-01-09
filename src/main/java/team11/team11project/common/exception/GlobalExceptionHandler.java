@@ -36,6 +36,7 @@ public class GlobalExceptionHandler {
 
         ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage(), e.getStatusCode().value());
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
 
     @ExceptionHandler(UserRoleNotFoundException.class)
     public ResponseEntity<ExceptionResponse> handleUserRoleNotFoundException(UserRoleNotFoundException e) {
