@@ -12,6 +12,7 @@ import team11.team11project.common.exception.InvalidOrderStatusChangeException;
 import team11.team11project.common.exception.MinimumOrderAmountException;
 import team11.team11project.common.exception.NotFoundException;
 import team11.team11project.common.exception.OutOfOperatingHoursException;
+import team11.team11project.menu.repository.MenuRepository;
 import team11.team11project.order.dto.CreateOrderRequest;
 import team11.team11project.order.dto.CreateOrderResponse;
 import team11.team11project.order.dto.UpdateOrderRequest;
