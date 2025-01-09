@@ -17,7 +17,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql = "UPDATE store SET is_deleted = true WHERE store_id = ?")
-public class Store {
+public class Store extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,5 +46,12 @@ public class Store {
                 request.getCloseTime(),
                 false
         );
+    }
+
+    public void updateStore(String name, LocalTime openTime, LocalTime closeTime, int minOrderPrice) {
+        this.name = name;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
+        this.minOrderPrice = minOrderPrice;
     }
 }
