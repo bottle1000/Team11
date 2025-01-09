@@ -1,4 +1,4 @@
-package team11.team11project.review.dto.request;
+package team11.team11project.review.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

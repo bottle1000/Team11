@@ -2,10 +2,14 @@ package team11.team11project.review.Service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import team11.team11project.common.entity.Member;
+import team11.team11project.common.entity.Orders;
 import team11.team11project.common.entity.Review;
+import team11.team11project.order.repository.OrderRepository;
 import team11.team11project.review.dto.request.ReviewAddRequestDto;
-import team11.team11project.review.dto.request.ReviewAddResponseDto;
+import team11.team11project.review.dto.response.ReviewAddResponseDto;
 import team11.team11project.review.repository.ReviewRepository;
+import team11.team11project.user.repository.MemberRepository;
 
 import java.util.Comparator;
 import java.util.List;
@@ -16,11 +20,17 @@ import java.util.stream.Collectors;
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private final OrderRepository orderRepository;
+    private final MemberRepository memberRepository;
 
     @Override
-    public ReviewAddResponseDto addReview(ReviewAddRequestDto dto) {
+    public ReviewAddResponseDto addReview(Long orderId, ReviewAddRequestDto dto) {
+        Orders order = orderRepository.findById(orderId).orElseThrow();
+        Member customer = memberRepository.findById(customerId).orElseThrow(); // Todo 로그인된 사용자를 가져와야함
+        Review review = new Review(order, customer , dto.getRating(), dto.getComment());
+        review = reviewRepository.save(review);
 
-        return null;
+        return ReviewAddResponseDto.toDto(review);
     }
 
     @Override

@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import team11.team11project.review.Service.ReviewService;
 import team11.team11project.review.dto.request.ReviewAddRequestDto;
-import team11.team11project.review.dto.request.ReviewAddResponseDto;
+import team11.team11project.review.dto.response.ReviewAddResponseDto;
 
 import java.util.List;
 
@@ -23,9 +23,9 @@ public class ReviewController {
      * @param dto 별점, 리뷰 내용
      * @return
      */
-    @PostMapping("/order/{}/reviews")
-    public ResponseEntity<ReviewAddResponseDto> addReview(@RequestBody ReviewAddRequestDto dto) {
-        return new ResponseEntity<>(reviewService.addReview(dto), HttpStatus.CREATED);
+    @PostMapping("/order/{orderId}/reviews")
+    public ResponseEntity<ReviewAddResponseDto> addReview(@PathVariable Long orderId, @RequestBody ReviewAddRequestDto dto) {
+        return new ResponseEntity<>(reviewService.addReview(orderId, dto), HttpStatus.CREATED);
     }
 
     /**
