@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ResponseStatusException.class)
-    public ResponseEntity<ExceptionResponse> handlerResponseStatusException(NotFoundException e) {
+    public ResponseEntity<ExceptionResponse> handlerResponseStatusException(ResponseStatusException e) {
 
         log.error("오류 메시지: {}", e.getMessage());
 

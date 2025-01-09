@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-    List<Review> findAllByStoreId(@Param("storeId") Long storeId);
+    List<Review> findAllById(@Param("storeId") Long storeId);
 
 
 }

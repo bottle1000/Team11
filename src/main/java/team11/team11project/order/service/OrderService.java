@@ -1,9 +1,8 @@
 package team11.team11project.order.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import team11.team11project.common.entity.Member;
 import team11.team11project.common.entity.Menu;
 import team11.team11project.common.entity.Orders;
@@ -63,6 +62,7 @@ public class OrderService {
     }
 
     // ::: 주문 상태 변경 서비스
+    @Transactional
     public UpdateOrderResponse updateOrderStatus(Long orderId, UpdateOrderRequest request) {
 
         Orders foundOrder = orderRepository.findById(orderId).orElseThrow(() ->

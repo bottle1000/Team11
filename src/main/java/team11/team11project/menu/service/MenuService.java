@@ -12,7 +12,6 @@ import team11.team11project.menu.repository.MenuRepository;
 import team11.team11project.store.repository.StoreRepository;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -24,10 +23,10 @@ public class MenuService {
     //메뉴 생성
     public MenuResponse createMenu(Long storeId, Long ownerId, String name, Integer price, String description) {
 
-        Store store = storeRepository.findById(storeId).orElseThrow(()->new NotFoundException("가게를 찾을 수 없습니다."));
+        Store store = storeRepository.findById(storeId).orElseThrow(()-> new NotFoundException("가게를 찾을 수 없습니다."));
 
         if (!store.getOwner().getId().equals(ownerId)){
-        throw new NotFoundException("사장만 가능합니다.");
+            throw new NotFoundException("사장만 가능합니다.");
         }
 
         Menu menu = new Menu(name, price, description, store, ownerId);
