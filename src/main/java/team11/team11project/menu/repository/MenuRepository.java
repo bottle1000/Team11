@@ -5,7 +5,7 @@ import team11.team11project.common.entity.Menu;
 
 import java.util.Optional;
 
-public interface menuRepository extends JpaRepository<Menu, Long>{
+public interface MenuRepository extends JpaRepository<Menu, Long>{
 
     Optional<Menu> findMenuById(Long id);
 }
