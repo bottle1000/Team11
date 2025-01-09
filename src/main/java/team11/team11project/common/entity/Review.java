@@ -39,4 +39,11 @@ public class Review {
 
     @Column(nullable = false)
     private LocalDateTime reviewTime; // 리뷰 작성 시간
+
+    public Review(Orders orders, Member customer, int rating, String comment) {
+        this.orders = orders;
+        this.customer = customer;
+        this.rating = rating;
+        this.comment = comment;
+    }
 }
