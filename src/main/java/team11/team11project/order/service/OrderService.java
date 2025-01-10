@@ -3,6 +3,7 @@ package team11.team11project.order.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import team11.team11project.common.entity.Member;
 import team11.team11project.common.entity.Menu;
 import team11.team11project.common.entity.Orders;
