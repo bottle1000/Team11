@@ -4,23 +4,23 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import team11.team11project.common.entity.Review;
 
-import java.time.LocalDateTime;
-
 @AllArgsConstructor
 @Getter
 public class ReviewAddResponseDto {
 
-    private Long id;
+    // FIX : API 명세서에서 응답 데이터로 고객 이름이 있어서 추가해줬습니다.
+    private Long ReviewId;
     private int rating;
     private String comment;
-    private LocalDateTime reviewTime;
+    private String customerName;
+
 
     public static ReviewAddResponseDto toDto(Review review) {
         return new ReviewAddResponseDto(
                 review.getId(),
                 review.getRating(),
                 review.getComment(),
-                review.getReviewTime()
+                review.getCustomer().getMemberName()
         );
     }
 }

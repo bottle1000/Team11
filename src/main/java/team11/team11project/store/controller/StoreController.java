@@ -9,6 +9,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import team11.team11project.common.aspect.AuthCheck;
 import team11.team11project.store.model.request.CreateStoreRequest;
 import team11.team11project.store.model.request.UpdateStoreRequest;
 import team11.team11project.store.model.response.OneStoreResponse;
@@ -28,6 +29,7 @@ public class StoreController {
      * @return
      */
     @PostMapping
+    @AuthCheck("OWNER")
     public ResponseEntity<StoreResponse> createStore(
             @RequestBody CreateStoreRequest storeRequest,
             HttpServletRequest request
@@ -36,7 +38,7 @@ public class StoreController {
         StoreResponse storeResponse = storeService.createStore(storeRequest, request);
 
         return new ResponseEntity<>(storeResponse,HttpStatus.CREATED);
-    }
+    }    
 
     // ::: 가게 조회(다건) API
     @GetMapping
