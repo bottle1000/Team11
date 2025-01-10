@@ -33,8 +33,10 @@ public class MenuService {
         //값이 없을 때 예외 처리
         if(name == null || name.isEmpty()) {
             throw new MissingRequiredFieldException("메뉴 이름을 입력하세요.");
-        }else if(price == null || price < 0){
+        }else if(price == null){
             throw new MissingRequiredFieldException("가격을 입력하세요.");
+        }else if(price < 0){
+            throw new MissingRequiredFieldException("잘못된 값입니다.");
         }else if(description == null || description.isEmpty()) {
             throw new MissingRequiredFieldException("내용을 입력하세요.");
         }
@@ -58,9 +60,15 @@ public class MenuService {
             menu.setName(name);
         }
 
+        if(price == null ){
+            price = menu.getPrice();
+        }
         if(price != null && price >= 0 ){
             menu.setPrice(price);
+        }else if(price < 0){
+            throw new MissingRequiredFieldException("잘못된 값입니다.");
         }
+
 
         if(description != null && !description.isEmpty()) {
             menu.setDescription(description);
