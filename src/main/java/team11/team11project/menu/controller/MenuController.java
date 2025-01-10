@@ -1,6 +1,7 @@
 package team11.team11project.menu.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class MenuController {
     //메뉴 생성
     @PostMapping("/{storeId}/menus")
     @AuthCheck("OWNER")
-    public ResponseEntity<MenuResponse> createMenu(@PathVariable Long storeId,
+    public ResponseEntity<MenuResponse> createMenu(@Valid @PathVariable Long storeId,
                                                    @RequestBody Dto menu,
                                                    HttpServletRequest servletRequest) {
         Long ownerId = (Long) servletRequest.getAttribute("memberId");
@@ -33,7 +34,7 @@ public class MenuController {
     //메뉴 수정
     @PatchMapping("/{storeId}/menus/{id}")
     @AuthCheck("OWNER")
-    public ResponseEntity<MenuResponse> updateMenu(@PathVariable Long storeId,
+    public ResponseEntity<MenuResponse> updateMenu(@Valid @PathVariable Long storeId,
                                                    @PathVariable Long id,
                                                    @RequestBody Dto menu,
                                                    HttpServletRequest servletRequest) {
@@ -45,7 +46,7 @@ public class MenuController {
     //메뉴 삭제
     @DeleteMapping("/{storeId}/menus/{id}")
     @AuthCheck("OWNER")
-    public ResponseEntity<MenuResponse> deleteMenu(@PathVariable Long storeId,
+    public ResponseEntity<MenuResponse> deleteMenu(@Valid @PathVariable Long storeId,
                                                    @PathVariable Long id,
                                                    HttpServletRequest servletRequest) {
         Long ownerId = (Long) servletRequest.getAttribute("memberId");
