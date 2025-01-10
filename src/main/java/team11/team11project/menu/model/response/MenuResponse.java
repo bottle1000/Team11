@@ -1,7 +1,6 @@
 package team11.team11project.menu.model.response;
 
 import lombok.Getter;
-import team11.team11project.common.entity.Menu;
 
 import java.time.LocalDate;
 
@@ -12,7 +11,7 @@ public class MenuResponse {
 
     private String name;
 
-    private int price;
+    private Integer price;
 
     private String description;
 
