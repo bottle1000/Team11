@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import team11.team11project.common.entity.Menu;
 import team11.team11project.common.entity.Store;
+import team11.team11project.common.exception.MissingRequiredFieldException;
 import team11.team11project.common.exception.NotFoundException;
 import team11.team11project.menu.model.response.MenuResponse;
 import team11.team11project.menu.repository.MenuRepository;
@@ -33,11 +34,11 @@ public class MenuService {
 
         //값이 없을 때 예외 처리
         if(name == null || name.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name cannot be empty");
-        }else if(price < 0){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Price cannot be negative");
+            throw new MissingRequiredFieldException("메뉴 이름을 입력하세요.");
+        }else if(price == null || price < 0){
+            throw new MissingRequiredFieldException("가격을 입력하세요.");
         }else if(description == null || description.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Description cannot be empty");
+            throw new MissingRequiredFieldException("내용을 입력하세요.");
         }
 
         Menu savedMenu = menuRepository.save(menu);
