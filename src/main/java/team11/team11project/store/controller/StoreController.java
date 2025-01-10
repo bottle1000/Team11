@@ -1,6 +1,7 @@
 package team11.team11project.store.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +32,7 @@ public class StoreController {
     @PostMapping
     @AuthCheck("OWNER")
     public ResponseEntity<StoreResponse> createStore(
-            @RequestBody CreateStoreRequest storeRequest,
+            @Valid @RequestBody CreateStoreRequest storeRequest,
             HttpServletRequest request
     ) {
 
@@ -70,7 +71,7 @@ public class StoreController {
     @PutMapping("/{storeId}")
     @AuthCheck("OWNER")
     public ResponseEntity<StoreResponse> updateStore(
-            @PathVariable Long storeId,
+            @Valid @PathVariable Long storeId,
             @RequestBody UpdateStoreRequest storeRequest,
             HttpServletRequest request
     ) {
@@ -84,7 +85,7 @@ public class StoreController {
     @DeleteMapping("/{storeId}")
     @AuthCheck("OWNER")
     public ResponseEntity<Void> deleteStore(
-            @PathVariable Long storeId,
+            @Valid @PathVariable Long storeId,
             HttpServletRequest request
     ) {
 

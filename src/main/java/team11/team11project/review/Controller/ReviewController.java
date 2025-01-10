@@ -1,6 +1,7 @@
 package team11.team11project.review.Controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,7 +30,7 @@ public class ReviewController {
     // FIX : DDL - UPDATE 설정, 엔티티 필드 삭제했는데 DB에서는 삭제가 안되는 이슈가 있었음. 그래서 콘솔로 직접
     @PostMapping("/orders/{orderId}/reviews")
     @AuthCheck("CUSTOMER")
-    public ResponseEntity<ReviewAddResponseDto> addReview(@PathVariable Long orderId,
+    public ResponseEntity<ReviewAddResponseDto> addReview(@Valid @PathVariable Long orderId,
                                                           @RequestBody ReviewAddRequestDto dto,
                                                           HttpServletRequest servletRequest) {
         return new ResponseEntity<>(reviewService.addReview(orderId, dto, servletRequest), HttpStatus.CREATED);
