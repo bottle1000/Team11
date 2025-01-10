@@ -1,9 +1,7 @@
 package team11.team11project.menu.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import team11.team11project.common.entity.Menu;
 import team11.team11project.common.entity.Store;
 import team11.team11project.common.exception.MissingRequiredFieldException;
