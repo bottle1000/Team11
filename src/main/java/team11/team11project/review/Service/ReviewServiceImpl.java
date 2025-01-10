@@ -53,7 +53,9 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     // FIX : GetReview를 없애고 getCreateAt으로 교체
-    // TODO : 가게 정보를 다건으 조회는 하는데 리뷰를 별점 범위에 따라 조회. 따로 봐야하는건지 같이 봐야하는건지 잘 모르겠음.
+    //TODO : 가게 정보를 다건으 조회는 하는데 리뷰를 별점 범위에 따라 조회. 따로 봐야하는건지 같이 봐야하는건지 잘 모르겠음.
+    //todo : LocalDate이다보니 날짜별 저장으로 같은 날짜에선 최신순 정렬이 안 됨
+    // LocalDateTime 변경 or ArrayList 변경 or 현재 유지
     @Override
     public Page<ReviewDto> findByReviewsById(Long storeId, int minRating, int maxRating, Pageable pageable) {
         Page<ReviewDto> reviewByStoreIdAndRating
