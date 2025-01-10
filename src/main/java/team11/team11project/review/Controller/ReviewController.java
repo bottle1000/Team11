@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import team11.team11project.common.aspect.AuthCheck;
 import team11.team11project.review.Service.ReviewService;
 import team11.team11project.review.dto.request.AddReviewRequestDto;
+import team11.team11project.review.dto.request.FindByRatingReviewDto;
 import team11.team11project.review.dto.response.AddReviewResponseDto;
 
 import java.util.List;
@@ -39,14 +40,10 @@ public class ReviewController {
     @GetMapping("/stores/{storeId}/reviews")
     @AuthCheck({"OWNER", "CUSTOMER"})
     public ResponseEntity<List<AddReviewResponseDto>> findReviewsByStore(
-            @PathVariable Long storeId,
-            @RequestParam(defaultValue = "1") int minRating,
-            @RequestParam(defaultValue = "5") int maxRating,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @PathVariable Long storeId, @RequestBody FindByRatingReviewDto dto) {
 
-         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
-        List<AddReviewResponseDto> reviews = reviewService.findByReviewsById(storeId, minRating, maxRating, pageable);
+         Pageable pageable = PageRequest.of(dto.getPage(), dto.getSize(), Sort.by("createdAt").descending());
+        List<AddReviewResponseDto> reviews = reviewService.findByReviewsById(storeId, dto.getMinRating(), dto.getMaxRating(), pageable);
 
         return ResponseEntity.ok(reviews);
     }
