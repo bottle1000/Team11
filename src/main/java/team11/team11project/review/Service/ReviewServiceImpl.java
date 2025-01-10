@@ -21,10 +21,6 @@ import team11.team11project.review.repository.ReviewRepository;
 import team11.team11project.store.repository.StoreRepository;
 import team11.team11project.user.repository.MemberRepository;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 @RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
