@@ -62,4 +62,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ExceptionResponse(e.getMessage(), HttpStatus.UNAUTHORIZED.value()), HttpStatus.UNAUTHORIZED);
 
     }
+
+    @ExceptionHandler(MissingRequiredFieldException.class)
+    public ResponseEntity<ExceptionResponse> handleMissingRequiredFieldException(MissingRequiredFieldException e) {
+        log.error("오류 메세지 : {}", e.getMessage());
+        return new ResponseEntity<>(new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
+    }
 }
