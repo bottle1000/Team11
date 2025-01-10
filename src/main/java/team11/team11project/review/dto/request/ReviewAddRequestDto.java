@@ -9,5 +9,7 @@ public class ReviewAddRequestDto {
 
     private int rating;
     private String comment;
+    //추가
+    private Long customerId;
 
 }
