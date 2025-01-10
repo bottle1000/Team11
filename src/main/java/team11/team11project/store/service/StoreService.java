@@ -7,15 +7,21 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team11.team11project.common.entity.Member;
+import team11.team11project.common.entity.Menu;
 import team11.team11project.common.entity.Store;
 import team11.team11project.common.exception.InvalidStoreOwnerException;
 import team11.team11project.common.exception.NotFoundException;
 import team11.team11project.common.exception.StoreLimitExceededException;
+import team11.team11project.menu.model.response.StoreMenuResponse;
+import team11.team11project.menu.repository.MenuRepository;
 import team11.team11project.store.model.request.CreateStoreRequest;
 import team11.team11project.store.model.request.UpdateStoreRequest;
+import team11.team11project.store.model.response.OneStoreResponse;
 import team11.team11project.store.model.response.StoreResponse;
 import team11.team11project.store.repository.StoreRepository;
 import team11.team11project.user.repository.MemberRepository;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +29,7 @@ public class StoreService {
 
     private final StoreRepository storeRepository;
     private final MemberRepository memberRepository;
+    private final MenuRepository menuRepository;
 
     // 가게 생성 서비스
     public StoreResponse createStore(CreateStoreRequest dto, HttpServletRequest request) {
@@ -44,7 +51,7 @@ public class StoreService {
     public Page<StoreResponse> findAllStore(Pageable pageable, String name) {
 
         if (!name.isEmpty()) {
-            Page<Store> storePage = storeRepository.findStoresByName(name);
+            Page<Store> storePage = storeRepository.findStoresByName(name, pageable);
 
             return storePage.map(StoreResponse::convertDto);
         }
@@ -55,7 +62,26 @@ public class StoreService {
     }
 
     // 가게 단건 조회 서비스
-    public
+    public OneStoreResponse findOneStore(Long storeId) {
+
+        Store foundStore = storeRepository.findById(storeId).orElseThrow(() ->
+                new NotFoundException("가게가 존재하지 않습니다."));
+
+        List<Menu> menuList = menuRepository.findByStoreId(foundStore.getId());
+
+        List<StoreMenuResponse> menuResponseList = menuList.stream()
+                .map(StoreMenuResponse::convertDto)
+                .toList();
+
+        return new OneStoreResponse(
+                foundStore.getId(),
+                foundStore.getName(),
+                foundStore.getOpenTime(),
+                foundStore.getCloseTime(),
+                foundStore.getMinOrderPrice(),
+                menuResponseList
+        );
+    }
 
     // 가게 수정 서비스
     @Transactional

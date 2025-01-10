@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import team11.team11project.store.model.request.CreateStoreRequest;
 import team11.team11project.store.model.request.UpdateStoreRequest;
+import team11.team11project.store.model.response.OneStoreResponse;
 import team11.team11project.store.model.response.StoreResponse;
 import team11.team11project.store.service.StoreService;
 
@@ -52,11 +53,12 @@ public class StoreController {
     // ::: 가게 조회(단건) API - merge 후 메뉴 확인하면서 생성 예정
     @GetMapping("/{storeId}")
     public ResponseEntity<OneStoreResponse> findOneStore(
-            @PathVariable Long storeId,
-            @RequestBody OneStoreRequest request
+            @PathVariable Long storeId
     ) {
 
-        storeService.findOneStore(storeId, request);
+        OneStoreResponse oneStoreResponse = storeService.findOneStore(storeId);
+
+        return new ResponseEntity<>(oneStoreResponse, HttpStatus.OK);
 
     }
 

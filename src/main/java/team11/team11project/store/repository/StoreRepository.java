@@ -1,6 +1,7 @@
 package team11.team11project.store.repository;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import team11.team11project.common.entity.Store;
@@ -11,5 +12,5 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     int findStoresByMemberId(Long ownerId);
 
     @Query("select s from Store s WHERE s.name = :name")
-    Page<Store> findStoresByName(String name);
+    Page<Store> findStoresByName(String name, Pageable pageable);
 }
