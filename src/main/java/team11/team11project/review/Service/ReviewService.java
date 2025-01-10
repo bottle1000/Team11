@@ -1,14 +1,14 @@
 package team11.team11project.review.Service;
 
 import org.springframework.data.domain.Pageable;
-import team11.team11project.review.dto.request.ReviewAddRequestDto;
-import team11.team11project.review.dto.response.ReviewAddResponseDto;
+import team11.team11project.review.dto.request.AddReviewRequestDto;
+import team11.team11project.review.dto.response.AddReviewResponseDto;
 
 import java.util.List;
 
 public interface ReviewService {
 
-    ReviewAddResponseDto addReview(Long orderId, ReviewAddRequestDto dto);
+    AddReviewResponseDto addReview(Long orderId, AddReviewRequestDto dto);
 
-    List<ReviewAddResponseDto> findByReviewsById(Long storeId, int minRating, int maxRating, Pageable pageable);
+    List<AddReviewResponseDto> findByReviewsById(Long storeId, int minRating, int maxRating, Pageable pageable);
 }

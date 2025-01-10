@@ -9,8 +9,8 @@ import team11.team11project.common.entity.Review;
 import team11.team11project.common.entity.Store;
 import team11.team11project.common.exception.NotFoundException;
 import team11.team11project.order.repository.OrderRepository;
-import team11.team11project.review.dto.request.ReviewAddRequestDto;
-import team11.team11project.review.dto.response.ReviewAddResponseDto;
+import team11.team11project.review.dto.request.AddReviewRequestDto;
+import team11.team11project.review.dto.response.AddReviewResponseDto;
 import team11.team11project.review.repository.ReviewRepository;
 import team11.team11project.store.repository.StoreRepository;
 import team11.team11project.user.repository.MemberRepository;
@@ -30,7 +30,7 @@ public class ReviewServiceImpl implements ReviewService {
 
 
     @Override
-    public ReviewAddResponseDto addReview(Long orderId, ReviewAddRequestDto dto) {
+    public AddReviewResponseDto addReview(Long orderId, AddReviewRequestDto dto) {
         Orders order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new NotFoundException("찾는 주문이 없습니다."));
         Store store = storeRepository.findById(orderId)
@@ -41,19 +41,19 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = Review.createReview(dto, store ,order, customer);
         reviewRepository.save(review);
 
-        return ReviewAddResponseDto.toDto(review);
+        return AddReviewResponseDto.toDto(review);
     }
 
     // FIX : GetReview를 없애고 getCreateAt으로 교체
     // TODO : 가게 정보를 다건으 조회는 하는데 리뷰를 별점 범위에 따라 조회. 따로 봐야하는건지 같이 봐야하는건지 잘 모르겠음.
     @Override
-    public List<ReviewAddResponseDto> findByReviewsById(Long storeId, int minRating, int maxRating, Pageable pageable) {
+    public List<AddReviewResponseDto> findByReviewsById(Long storeId, int minRating, int maxRating, Pageable pageable) {
         List<Review> reviews = reviewRepository.findAllById(storeId);
 
         return reviews.stream()
                 .filter(review -> review.getRating() >= minRating && review.getRating() <= maxRating) // 별점 범위 필터링
                 .sorted(Comparator.comparing(Review::getCreatedAt).reversed()) // 최신순 정렬
-                .map(ReviewAddResponseDto::toDto) // DTO 변환
+                .map(AddReviewResponseDto::toDto) // DTO 변환
                 .collect(Collectors.toList());
     }
 

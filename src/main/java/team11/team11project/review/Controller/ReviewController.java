@@ -9,8 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import team11.team11project.common.aspect.AuthCheck;
 import team11.team11project.review.Service.ReviewService;
-import team11.team11project.review.dto.request.ReviewAddRequestDto;
-import team11.team11project.review.dto.response.ReviewAddResponseDto;
+import team11.team11project.review.dto.request.AddReviewRequestDto;
+import team11.team11project.review.dto.response.AddReviewResponseDto;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class ReviewController {
     // FIX : DDL - UPDATE 설정, 엔티티 필드 삭제했는데 DB에서는 삭제가 안되는 이슈가 있었음. 그래서 콘솔로 직접
     @PostMapping("/orders/{orderId}/reviews")
     @AuthCheck("CUSTOMER")
-    public ResponseEntity<ReviewAddResponseDto> addReview(@PathVariable Long orderId, @RequestBody ReviewAddRequestDto dto) {
+    public ResponseEntity<AddReviewResponseDto> addReview(@PathVariable Long orderId, @RequestBody AddReviewRequestDto dto) {
         return new ResponseEntity<>(reviewService.addReview(orderId, dto), HttpStatus.CREATED);
     }
 
@@ -38,7 +38,7 @@ public class ReviewController {
      */
     @GetMapping("/stores/{storeId}/reviews")
     @AuthCheck({"OWNER", "CUSTOMER"})
-    public ResponseEntity<List<ReviewAddResponseDto>> findReviewsByStore(
+    public ResponseEntity<List<AddReviewResponseDto>> findReviewsByStore(
             @PathVariable Long storeId,
             @RequestParam(defaultValue = "1") int minRating,
             @RequestParam(defaultValue = "5") int maxRating,
@@ -46,7 +46,7 @@ public class ReviewController {
             @RequestParam(defaultValue = "10") int size) {
 
          Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
-        List<ReviewAddResponseDto> reviews = reviewService.findByReviewsById(storeId, minRating, maxRating, pageable);
+        List<AddReviewResponseDto> reviews = reviewService.findByReviewsById(storeId, minRating, maxRating, pageable);
 
         return ResponseEntity.ok(reviews);
     }
