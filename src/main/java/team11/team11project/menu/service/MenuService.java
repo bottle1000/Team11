@@ -71,6 +71,7 @@ public class MenuService {
 
     }
 
+    //메뉴 삭제
     public void deleteMenu(Long storeId, Long ownerId, Long id) {
         Menu menu = menuRepository.findMenuById(id).orElseThrow(() -> new NotFoundException("메뉴를 찾을 수 없습니다."));
 
