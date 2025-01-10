@@ -17,6 +17,7 @@ import team11.team11project.order.dto.CreateOrderResponse;
 import team11.team11project.order.dto.UpdateOrderRequest;
 import team11.team11project.order.dto.UpdateOrderResponse;
 import team11.team11project.order.repository.OrderRepository;
+import team11.team11project.user.model.response.OrderMemberResponse;
 import team11.team11project.user.repository.MemberRepository;
 
 import java.time.LocalTime;
@@ -55,10 +56,17 @@ public class OrderService {
         }
 
         Orders order = new Orders(customer, menu, request.getQuantity());
-
         Orders savedOrder = orderRepository.save(order);
 
-        return new CreateOrderResponse("주문 생성", savedOrder.getId());
+        OrderMemberResponse orderMemberResponse = new OrderMemberResponse(savedOrder.getCustomer().getMemberName());
+
+        return new CreateOrderResponse(
+                savedOrder.getId(),
+                savedOrder.getOrderStatus(),
+                savedOrder.getQuantity(),
+                orderMemberResponse
+        );
+
     }
 
     // ::: 주문 상태 변경 서비스
@@ -73,6 +81,12 @@ public class OrderService {
             throw new InvalidOrderStatusChangeException("주문 상태를 변경할 수 없습니다.");
         }
 
+        // 주문 수락, 배달중인 상태에서 주문 취소 상태로 변경할 경우 예외 처리
+        if ((foundOrder.getOrderStatus() == OrderStatus.ACCEPTED || foundOrder.getOrderStatus() == OrderStatus.DELIVERY)
+                && request.getOrderStatus() == OrderStatus.CANCELED) {
+            throw new InvalidOrderStatusChangeException("주문을 취소할 수 없습니다.");
+        }
+
         // 주문 상태를 전 단계로 되돌아갈 경우 예외 처리
         if (foundOrder.getOrderStatus().ordinal() > request.getOrderStatus().ordinal()) {
             throw new InvalidOrderStatusChangeException("주문 상태를 전 단계로 되돌아갈 수 없습니다.");
@@ -80,6 +94,6 @@ public class OrderService {
 
         foundOrder.UpdateOrderStatus(request.getOrderStatus());
 
-        return new UpdateOrderResponse("주문 상태 변경 완료!");
+        return new UpdateOrderResponse(foundOrder.getId(), foundOrder.getOrderStatus());
     }
 }
