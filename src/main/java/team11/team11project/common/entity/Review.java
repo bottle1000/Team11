@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import team11.team11project.review.dto.request.ReviewAddRequestDto;
+import team11.team11project.review.dto.request.AddReviewRequestDto;
 
 @Entity
 @Table(name = "review")
@@ -42,7 +42,7 @@ public class Review extends BaseEntity{
     // FIX : GetReview를 없애고 getCreateAt으로 교체
 
     // 리뷰 생성 메서드 추가
-    public static Review createReview(ReviewAddRequestDto dto, Store store, Orders orders, Member member) {
+    public static Review createReview(AddReviewRequestDto dto, Store store, Orders orders, Member member) {
         return new Review(
                 null,
                 store,

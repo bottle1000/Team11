@@ -32,7 +32,6 @@ public class Orders extends BaseEntity {
 
     private int quantity; // 주문 수량
 
-    //TODO : 총 주문 금액을 어떻게 할 것인가. Order or Menu
 
     public Orders(Member customer, Menu menu,int quantity) {
         this.customer = customer;

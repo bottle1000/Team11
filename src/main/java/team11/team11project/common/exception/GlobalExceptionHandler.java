@@ -68,4 +68,10 @@ public class GlobalExceptionHandler {
         log.error("오류 메세지 : {}", e.getMessage());
         return new ResponseEntity<>(new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
     }
+  
+    @ExceptionHandler(ReviewNotAllowedException.class)
+    public ResponseEntity<ExceptionResponse> handleReviewNotAllowedException(ReviewNotAllowedException e) {
+        log.error("오류 메시지 : {}", e.getMessage());
+        return new ResponseEntity<>(new ExceptionResponse(e.getMessage(), HttpStatus.CONFLICT.value()), HttpStatus.CONFLICT);
+    }
 }

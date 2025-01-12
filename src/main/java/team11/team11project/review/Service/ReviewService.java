@@ -1,14 +1,15 @@
 package team11.team11project.review.Service;
 
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import team11.team11project.review.dto.request.ReviewAddRequestDto;
-import team11.team11project.review.dto.response.ReviewAddResponseDto;
-
-import java.util.List;
+import team11.team11project.review.dto.request.AddReviewRequestDto;
+import team11.team11project.review.dto.response.AddReviewResponseDto;
+import team11.team11project.review.dto.response.ReviewDto;
 
 public interface ReviewService {
 
-    ReviewAddResponseDto addReview(Long orderId, ReviewAddRequestDto dto);
+    AddReviewResponseDto addReview(Long orderId, AddReviewRequestDto dto, HttpServletRequest servletRequest);
 
-    List<ReviewAddResponseDto> findByReviewsById(Long storeId, int minRating, int maxRating, Pageable pageable);
+    Page<ReviewDto> findByReviewsById(Long storeId, int minRating, int maxRating, Pageable pageable);
 }
