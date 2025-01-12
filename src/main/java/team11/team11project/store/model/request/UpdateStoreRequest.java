@@ -1,6 +1,7 @@
 package team11.team11project.store.model.request;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -12,11 +13,11 @@ public class UpdateStoreRequest {
 
     @NotBlank(message = "")
     private final String name;
-    @NotBlank(message = "")
+    @NotNull(message = "")
     private final LocalTime openTime;
-    @NotBlank(message = "")
+    @NotNull(message = "")
     private final LocalTime closeTime;
-    @NotBlank(message = "")
+    @NotNull(message = "")
     private final int minOrderPrice;
 
 }
