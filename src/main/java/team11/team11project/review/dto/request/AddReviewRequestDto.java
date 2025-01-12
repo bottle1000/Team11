@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class ReviewAddRequestDto {
+public class AddReviewRequestDto {
 
     @NotBlank(message = "별점 입력은 필수 입니다.")
     @Size(min = 1, max = 5, message = "별점은 최소 1점 이상, 최대 5점 이하여야합니다.")

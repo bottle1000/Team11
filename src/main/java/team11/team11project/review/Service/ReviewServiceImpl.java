@@ -14,8 +14,8 @@ import team11.team11project.common.exception.NotFoundException;
 import team11.team11project.common.exception.ReviewNotAllowedException;
 import team11.team11project.common.exception.UnauthorizedAccessException;
 import team11.team11project.order.repository.OrderRepository;
-import team11.team11project.review.dto.request.ReviewAddRequestDto;
-import team11.team11project.review.dto.response.ReviewAddResponseDto;
+import team11.team11project.review.dto.request.AddReviewRequestDto;
+import team11.team11project.review.dto.response.AddReviewResponseDto;
 import team11.team11project.review.dto.response.ReviewDto;
 import team11.team11project.review.repository.ReviewRepository;
 import team11.team11project.store.repository.StoreRepository;
@@ -30,8 +30,9 @@ public class ReviewServiceImpl implements ReviewService {
     private final MemberRepository memberRepository;
     private final StoreRepository storeRepository;
 
+
     @Override
-    public ReviewAddResponseDto addReview(Long orderId, ReviewAddRequestDto dto, HttpServletRequest servletRequest) {
+    public AddReviewResponseDto addReview(Long orderId, AddReviewRequestDto dto, HttpServletRequest servletRequest) {
 
         Long memberId = (Long) servletRequest.getAttribute("memberId");
 
@@ -42,17 +43,19 @@ public class ReviewServiceImpl implements ReviewService {
 
         Store store = storeRepository.findById(orderId)
                 .orElseThrow(() -> new NotFoundException("찾는 가게가 없습니다."));
-        Member customer = memberRepository.findById(memberId)
+        Member customer = memberRepository.findById(order.getCustomer().getId())
                 .orElseThrow(() -> new NotFoundException("찾는 고객이 없습니다."));
 
         Review review = Review.createReview(dto, store ,order, customer);
         reviewRepository.save(review);
 
-        return ReviewAddResponseDto.toDto(review);
+        return AddReviewResponseDto.toDto(review);
     }
 
-    // FIX : GetReviewTime를 없애고 getCreateAt으로 교체
-    // TODO : 가게 정보를 다건으 조회는 하는데 리뷰를 별점 범위에 따라 조회. 따로 봐야하는건지 같이 봐야하는건지 잘 모르겠음.
+    // FIX : GetReview를 없애고 getCreateAt으로 교체
+    //TODO : 가게 정보를 다건으 조회는 하는데 리뷰를 별점 범위에 따라 조회. 따로 봐야하는건지 같이 봐야하는건지 잘 모르겠음.
+    //todo : LocalDate이다보니 날짜별 저장으로 같은 날짜에선 최신순 정렬이 안 됨
+    // LocalDateTime 변경 or ArrayList 변경 or 현재 유지
     @Override
     public Page<ReviewDto> findByReviewsById(Long storeId, int minRating, int maxRating, Pageable pageable) {
         Page<ReviewDto> reviewByStoreIdAndRating
