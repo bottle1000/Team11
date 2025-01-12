@@ -61,13 +61,11 @@ public class MenuService {
             menu.setName(name);
         }
 
-        if(price == null ){
-            price = menu.getPrice();
-        }
-        if(price != null && price >= 0 ){
+        if(price != null) {
+            if (price < 0) {
+                throw new MissingRequiredFieldException("잘못된 값입니다.");
+            }
             menu.setPrice(price);
-        }else if(price < 0){
-            throw new MissingRequiredFieldException("잘못된 값입니다.");
         }
 
 
