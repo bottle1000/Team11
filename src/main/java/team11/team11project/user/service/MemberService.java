@@ -40,7 +40,6 @@ public class MemberService {
         return RegisterDto.convertDto(member);
     }
 
-    //TODO : 공통 예외처리 작성해야함
     public LoginDto LoginMember(LoginRequest request) {
         // 유저 검증
         Member member = memberRepository.findMemberByEmail(request.getEmail())
@@ -55,7 +54,6 @@ public class MemberService {
         return LoginDto.convertDto(token);
     }
 
-    //Todo : 공통 예외 처리
     @Transactional
     public void deleteMember(Long memberId, String password, HttpServletRequest request) {
         Member member = memberRepository.findById(memberId)
