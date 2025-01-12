@@ -71,8 +71,8 @@ public class StoreController {
     @PutMapping("/{storeId}")
     @AuthCheck("OWNER")
     public ResponseEntity<StoreResponse> updateStore(
-            @Valid @PathVariable Long storeId,
-            @RequestBody UpdateStoreRequest storeRequest,
+            @PathVariable Long storeId,
+            @Valid @RequestBody UpdateStoreRequest storeRequest,
             HttpServletRequest request
     ) {
 

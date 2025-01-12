@@ -30,8 +30,8 @@ public class ReviewController {
     // FIX : DDL - UPDATE 설정, 엔티티 필드 삭제했는데 DB에서는 삭제가 안되는 이슈가 있었음. 그래서 콘솔로 직접
     @PostMapping("/orders/{orderId}/reviews")
     @AuthCheck("CUSTOMER")
-    public ResponseEntity<AddReviewResponseDto> addReview(@Valid @PathVariable Long orderId,
-                                                          @RequestBody AddReviewRequestDto dto,
+    public ResponseEntity<AddReviewResponseDto> addReview(@PathVariable Long orderId,
+                                                          @Valid @RequestBody AddReviewRequestDto dto,
                                                           HttpServletRequest servletRequest) {
         return new ResponseEntity<>(reviewService.addReview(orderId, dto, servletRequest), HttpStatus.CREATED);
     }

@@ -37,8 +37,8 @@ public class OrderController {
     @PatchMapping("/{orderId}")
     @AuthCheck("OWNER")
     public ResponseEntity<UpdateOrderResponse> updateOrderStatus(
-            @Valid @PathVariable Long orderId,
-            @RequestBody UpdateOrderRequest request
+            @PathVariable Long orderId,
+            @Valid @RequestBody UpdateOrderRequest request
     ) {
 
         UpdateOrderResponse updateOrderResponse = orderService.updateOrderStatus(orderId, request);
