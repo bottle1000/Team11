@@ -63,6 +63,12 @@ public class GlobalExceptionHandler {
 
     }
 
+    @ExceptionHandler(MissingRequiredFieldException.class)
+    public ResponseEntity<ExceptionResponse> handleMissingRequiredFieldException(MissingRequiredFieldException e) {
+        log.error("오류 메세지 : {}", e.getMessage());
+        return new ResponseEntity<>(new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
+    }
+  
     @ExceptionHandler(ReviewNotAllowedException.class)
     public ResponseEntity<ExceptionResponse> handleReviewNotAllowedException(ReviewNotAllowedException e) {
         log.error("오류 메시지 : {}", e.getMessage());

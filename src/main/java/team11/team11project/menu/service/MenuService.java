@@ -1,11 +1,10 @@
 package team11.team11project.menu.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import team11.team11project.common.entity.Menu;
 import team11.team11project.common.entity.Store;
+import team11.team11project.common.exception.MissingRequiredFieldException;
 import team11.team11project.common.exception.NotFoundException;
 import team11.team11project.menu.model.response.MenuResponse;
 import team11.team11project.menu.repository.MenuRepository;
@@ -34,11 +33,13 @@ public class MenuService {
 
         //값이 없을 때 예외 처리
         if(name == null || name.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name cannot be empty");
+            throw new MissingRequiredFieldException("메뉴 이름을 입력하세요.");
+        }else if(price == null){
+            throw new MissingRequiredFieldException("가격을 입력하세요.");
         }else if(price < 0){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Price cannot be negative");
+            throw new MissingRequiredFieldException("잘못된 값입니다.");
         }else if(description == null || description.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Description cannot be empty");
+            throw new MissingRequiredFieldException("내용을 입력하세요.");
         }
 
         Menu savedMenu = menuRepository.save(menu);
@@ -60,9 +61,13 @@ public class MenuService {
             menu.setName(name);
         }
 
-        if(price != null && price >= 0 ){
+        if(price != null) {
+            if (price < 0) {
+                throw new MissingRequiredFieldException("잘못된 값입니다.");
+            }
             menu.setPrice(price);
         }
+
 
         if(description != null && !description.isEmpty()) {
             menu.setDescription(description);
@@ -73,6 +78,7 @@ public class MenuService {
 
     }
 
+    //메뉴 삭제
     public void deleteMenu(Long storeId, Long ownerId, Long id) {
         Menu menu = menuRepository.findMenuById(id).orElseThrow(() -> new NotFoundException("메뉴를 찾을 수 없습니다."));
 
