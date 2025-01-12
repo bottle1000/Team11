@@ -31,7 +31,7 @@ public class MenuService {
 
         Menu menu = new Menu(name, price, description, store, ownerId);
 
-        //값이 없을 때 예외 처리
+//        값이 없을 때 예외 처리
         if(name == null || name.isEmpty()) {
             throw new MissingRequiredFieldException("메뉴 이름을 입력하세요.");
         }else if(price == null){
