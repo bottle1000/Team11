@@ -24,7 +24,6 @@ import java.time.LocalTime;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-
 @SpringBootTest
 @Transactional
 public class MenuServiceTest {
